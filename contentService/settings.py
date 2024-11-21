@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'api',
     'oauth2_provider',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +90,7 @@ OAUTH2_PROVIDER = {
     'AUTHORIZATION_CODE_EXPIRE_SECONDS': 600,
     'CLIENT_SECRET_GENERATOR': 'django.utils.crypto.get_random_string',
     'ALLOW_EMBEDDED_AUTHENTICATION': True,
+    'BLACKLIST_AFTER_ROTATION': True,
     'SCOPES': {
         'read': 'Read scope',
         'write': 'Write scope',
