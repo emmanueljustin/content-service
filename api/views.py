@@ -1,13 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import User
-from .serializer import UserSerializer
+from .models import Person
+from .serializer import PersonSerializer
 
 @api_view(['GET'])
-def get_user(request):
-  users = User.objects.all()
-  serializer = UserSerializer(users, many=True)
+def get_person(request):
+  users = Person.objects.all()
+  serializer = PersonSerializer(users, many=True)
   return Response({
     "status": "ok",
     "message": "Here is the list of users",
@@ -15,17 +15,17 @@ def get_user(request):
   })
 
 @api_view(['POST'])
-def add_user(request):
-  serializer = UserSerializer(data=request.data)
+def add_person(request):
+  serializer = PersonSerializer(data=request.data)
   if serializer.is_valid():
     serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
-def update_user(request, pk):
-  user = User.objects.get(pk=pk)
-  serializer = UserSerializer(user, data=request.data)
+def update_person(request, pk):
+  user = Person.objects.get(pk=pk)
+  serializer = PersonSerializer(user, data=request.data)
   if serializer.is_valid():
     serializer.save()
     return Response({
@@ -40,8 +40,8 @@ def update_user(request, pk):
 
 
 @api_view(['DELETE'])
-def remove_user(request, pk):
-  user = User.objects.get(pk=pk)
+def remove_person(request, pk):
+  user = Person.objects.get(pk=pk)
   user.delete()
   return Response({
     "status": "ok",

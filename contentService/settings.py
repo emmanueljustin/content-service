@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'oauth2_provider',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -72,9 +74,26 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',  # Only JSON, no HTML views
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 WSGI_APPLICATION = 'contentService.wsgi.application'
+
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600,  # Set token expiration time as needed
+    'AUTHORIZATION_CODE_EXPIRE_SECONDS': 600,
+    'CLIENT_SECRET_GENERATOR': 'django.utils.crypto.get_random_string',
+    'ALLOW_EMBEDDED_AUTHENTICATION': True,
+    'SCOPES': {
+        'read': 'Read scope',
+        'write': 'Write scope',
+    }
+}
 
 
 # Database

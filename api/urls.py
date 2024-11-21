@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import get_user, add_user, update_user, remove_user
+from .views import get_person, add_person, update_person, remove_person
 
 urlpatterns = [
-  path('users/', get_user, name='get_user'),
-  path('users/add/', add_user, name='add_user'),
-  path('users/update/<int:pk>/', update_user, name='update_user'),
-  path('users/remove/<int:pk>/', remove_user, name='remove_user')
+  path('persons/', get_person, name='get_person'),
+  path('persons/add/', add_person, name='add_person'),
+  path('persons/update/<int:pk>/', update_person, name='update_person'),
+  path('persons/remove/<int:pk>/', remove_person, name='remove_person')
 ]
