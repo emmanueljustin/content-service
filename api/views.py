@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response 
 from rest_framework import status
 from .models import Person
-from .serializer import PersonSerializer, AccountSerializer, UserSerializer
+from .serializer import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
@@ -53,6 +53,39 @@ def remove_person(request, pk):
     "status": "ok",
     "message": "The User is successfully removed"
   }, status=status.HTTP_200_OK)
+
+
+# === Wishlist ===
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_wishlist(request):
+  wishlists = Wishlist.objects.all()
+  serializers = WishlistSerializer(wishlists, many=True)
+  return Response({
+    "status": "ok",
+    "message": "Here is the list of wishlist",
+    "data": serializers.data
+  }, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def add_wishlist(request):
+  serializer = WishlistSerializer(data=request.data)
+  if serializer.is_valid():
+    wishlist = serializer.save()
+    wishlistData = WishlistSerializer(wishlist).data
+    return Response({
+      "status": "ok",
+      "message": "successfully added a wishlist",
+      "data": wishlistData
+    }, status=status.HTTP_200_OK)
+  
+  return Response({
+    "status": "err",
+    "message": "Err! Cannot add the wishlist",
+  }, status=status.HTTP_400_BAD_REQUEST)
+
+  
 
 
 # === Authentication ===

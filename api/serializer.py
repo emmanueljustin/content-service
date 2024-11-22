@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Person
+from .models import Person, Wishlist
 from django.contrib.auth.models import User
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -7,7 +7,13 @@ class PersonSerializer(serializers.ModelSerializer):
     model = Person
     fields = '__all__'
 
+class WishlistSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Wishlist
+    fields = '__all__'
+    
 
+# Authentication
 class UserSerializer(serializers.ModelSerializer):
   class Meta:
     model = User
