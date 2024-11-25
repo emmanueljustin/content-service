@@ -85,7 +85,57 @@ def add_wishlist(request):
     "message": "Err! Cannot add the wishlist",
   }, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['PUT'])
+@permission_classes([AllowAny])
+def update_wishlist(request, pk):
+
+  wishlist = Wishlist.objects.get(pk=pk)
+  serializer = WishlistSerializer(wishlist, data=request.data)
+
+  if serializer.is_valid():
+    serializer.save()
+    return Response({
+      "status": "ok",
+      "message": "Successfully updated the wishlist",
+      "data": serializer.data
+    }, status=status.HTTP_200_OK)
   
+  return Response({
+    "status": "err",
+    "message": "Err! cannot update the wishlist"
+  }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+@permission_classes([AllowAny])
+def delete_wishlist(request):
+  ids = request.data.get('ids', [])
+
+  if not ids:
+    return Response({
+      "status": "err",
+      "message": "Please provide a valid item id"
+    }, status=status.HTTP_400_BAD_REQUEST)
+  
+  try:
+    wishlist = Wishlist.objects.filter(id__in=ids)
+    if not wishlist.exists():
+      return Response({
+        "status": "err",
+        "message": "No items were found on the provided ID/s"
+      }, status=status.HTTP_400_BAD_REQUEST)
+    
+    deleted_count = wishlist.delete()
+
+    return Response({
+      "status": "ok",
+      "message": f"Successfully deleted {deleted_count} wishlist(s)",
+    }, status=status.HTTP_200_OK)
+  
+  except Exception as e:
+    return Response({
+      "status": "err",
+      "message": f"An error has occurred: {str(e)}"
+    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 # === Authentication ===

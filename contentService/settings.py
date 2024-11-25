@@ -101,14 +101,27 @@ OAUTH2_PROVIDER = {
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# MySQL Config
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
+#         'NAME': 'contentservice',              # Your MySQL database name
+#         'USER': 'root',                        # Your MySQL username
+#         'PASSWORD': '',                        # Your MySQL password
+#         'HOST': '127.0.0.1',                   # Host for Laragon (use localhost or 127.0.0.1)
+#         'PORT': '3306',                        # Default MySQL port
+#     }
+# }
+
+# PostgreSQL config
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': 'contentservice',              # Your MySQL database name
-        'USER': 'root',                        # Your MySQL username
-        'PASSWORD': '',                        # Your MySQL password
-        'HOST': '127.0.0.1',                   # Host for Laragon (use localhost or 127.0.0.1)
-        'PORT': '3306',                        # Default MySQL port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'contentservice',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
