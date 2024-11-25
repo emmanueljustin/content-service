@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'oauth2_provider',
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
@@ -72,22 +75,53 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',  # Only JSON, no HTML views
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 WSGI_APPLICATION = 'contentService.wsgi.application'
+
+OAUTH2_PROVIDER = {
+    'ACCESS_TOKEN_EXPIRE_SECONDS': 3600,  # Set token expiration time as needed
+    'AUTHORIZATION_CODE_EXPIRE_SECONDS': 600,
+    'CLIENT_SECRET_GENERATOR': 'django.utils.crypto.get_random_string',
+    'ALLOW_EMBEDDED_AUTHENTICATION': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'SCOPES': {
+        'read': 'Read scope',
+        'write': 'Write scope',
+    }
+}
 
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# MySQL Config
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
+#         'NAME': 'contentservice',              # Your MySQL database name
+#         'USER': 'root',                        # Your MySQL username
+#         'PASSWORD': '',                        # Your MySQL password
+#         'HOST': '127.0.0.1',                   # Host for Laragon (use localhost or 127.0.0.1)
+#         'PORT': '3306',                        # Default MySQL port
+#     }
+# }
+
+# PostgreSQL config
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Use MySQL backend
-        'NAME': 'contentservice',              # Your MySQL database name
-        'USER': 'root',                        # Your MySQL username
-        'PASSWORD': '',                        # Your MySQL password
-        'HOST': '127.0.0.1',                   # Host for Laragon (use localhost or 127.0.0.1)
-        'PORT': '3306',                        # Default MySQL port
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'contentservice',
+        'USER': 'postgres',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
