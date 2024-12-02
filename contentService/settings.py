@@ -120,7 +120,8 @@ DATABASES = {
         'NAME': 'contentservice',
         'USER': 'postgres',
         'PASSWORD': 'root',
-        'HOST': 'localhost',
+        # 'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }
