@@ -7,6 +7,7 @@ from .serializer import *
 from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
+from .pagination import CustomWishlistPagination
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -56,16 +57,25 @@ def remove_person(request, pk):
 
 
 # === Wishlist ===
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
 def get_wishlist(request):
+  page_size = request.data.get('pageSize', 10)
+  page = request.data.get('page', 1)
+
   wishlists = Wishlist.objects.all()
-  serializers = WishlistSerializer(wishlists, many=True)
-  return Response({
-    "status": "ok",
-    "message": "Here is the list of wishlist",
-    "data": serializers.data
-  }, status=status.HTTP_200_OK)
+  
+  total_count = wishlists.count()
+
+  total_pages = (total_count + page_size - 1)
+
+  paginator = CustomWishlistPagination(page_size=page_size, page=page)
+  
+  paginated_wishlists = paginator.paginate_queryset(wishlists)
+
+  serializer = WishlistSerializer(paginated_wishlists, many=True)
+
+  return paginator.get_paginated_response(serializer.data, total_count, total_pages)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
