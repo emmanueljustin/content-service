@@ -21,9 +21,13 @@ class CustomWishlistPagination(PageNumberPagination):
     return Response({
         'status': 'ok',
         'message': 'Here is the list of wishlist',
-        'data': data,
-        'count': total_count,
-        'total_pages': total_pages,
-        'next': self.page + 1 if self.page < total_pages else None,
-        'previous': self.page - 1 if self.page > 1 else None,
+        'data': {
+          "data": data,
+          "pageInfo": {
+            'count': total_count,
+            'total_pages': total_pages,
+            'next': self.page + 1 if self.page < total_pages else None,
+            'previous': self.page - 1 if self.page > 1 else None,
+          }
+        }
     })
