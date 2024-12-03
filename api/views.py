@@ -226,3 +226,29 @@ def logout(request):
       "status": "err",
       "message": f"Invalid or expired refresh token: {str(e)}"
     }, status=status.HTTP_400_BAD_REQUEST)
+
+
+# === Expense Priority ===
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_expense(request):
+  expense = ExpensePriority.objects.all()
+  serializer = ExpensePrioritySerializer(expense, many=True)
+  return Response({
+    "status": "ok",
+    "message": "Here is the list of expenses",
+    "data": serializer.data
+  })
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def add_expense(request):
+  serializer = ExpensePrioritySerializer(data=request.data)
+  if serializer.is_valid():
+    expense = serializer.save()
+    expenseData = ExpensePrioritySerializer(expense).data
+    return Response({
+      "status": "ok",
+      "message": "successfully added a expense",
+      "data": expenseData
+    }, status=status.HTTP_200_OK)

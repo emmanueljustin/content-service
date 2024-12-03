@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Person, Wishlist
+from .models import Person, Wishlist, ExpensePriority
 from django.contrib.auth.models import User
 
 class PersonSerializer(serializers.ModelSerializer):
@@ -27,3 +27,9 @@ class AccountSerializer(serializers.ModelSerializer):
   def create(self, validated_data):
     user = User.objects.create_user(**validated_data)
     return user
+  
+# Expense Priority Serializer
+class ExpensePrioritySerializer(serializers.ModelSerializer):
+  class Meta:
+    model = ExpensePriority
+    fields = '__all__'

@@ -13,3 +13,10 @@ class Wishlist(models.Model):
   price = models.DecimalField(max_digits=7, decimal_places=2)
   acquired = models.BooleanField()
   priorityLevel = models.IntegerField()
+
+class ExpensePriority(models.Model):
+  expenseName = models.CharField(max_length=255)
+  budget = models.DecimalField(max_digits=7, decimal_places=2)
+  acquired = models.BooleanField()
+  priority = models.IntegerField()
+  note = models.CharField(max_length=255, blank=True, null=True)
