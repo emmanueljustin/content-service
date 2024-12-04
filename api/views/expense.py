@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response 
 from rest_framework import status
 from ..serializers.expense_serializer import *
+from ..models.expense_model import ExpensePriority
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

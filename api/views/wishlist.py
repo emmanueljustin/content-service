@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from ..serializers.wishlist_serializer import *
 from ..pagination import CustomWishlistPagination
+from ..models.wishlist_model import Wishlist
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
