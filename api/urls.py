@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import *
+from .views.person import *
+from .views.wishlist import *
+from .views.authentication import *
+from .views.expense import *
 
 urlpatterns = [
   path('persons/', get_person, name='get_person'),
