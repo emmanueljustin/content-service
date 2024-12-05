@@ -22,10 +22,15 @@ def add_person(request):
   serializer = PersonSerializer(data=request.data)
   if serializer.is_valid():
     serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response({
+      "status": "ok",
+      "message": "Successfully created a person with expenses",
+      "data": serializer.data
+    }, status=status.HTTP_201_CREATED)
   return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
+@permission_classes([AllowAny])
 def update_person(request, pk):
   user = Person.objects.get(pk=pk)
   serializer = PersonSerializer(user, data=request.data)
@@ -43,6 +48,7 @@ def update_person(request, pk):
 
 
 @api_view(['DELETE'])
+@permission_classes([AllowAny])
 def remove_person(request, pk):
   user = Person.objects.get(pk=pk)
   user.delete()

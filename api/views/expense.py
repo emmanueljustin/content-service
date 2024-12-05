@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response 
 from rest_framework import status
 from ..serializers.expense_serializer import *
-from ..models.expense_model import ExpensePriority
+from ..models import *
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
@@ -18,8 +18,20 @@ def get_expense(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
-def add_expense(request):
-  serializer = ExpensePrioritySerializer(data=request.data)
+def add_expense(request, person_id):
+  try:
+    person = Person.objects.get(id=person_id)
+  
+  except Person.DoesNotExist:
+    return Response({
+      "status": "err",
+      "message": "Person not found"
+    }, status=status.HTTP_404_NOT_FOUND)
+  
+  expense_data = request.data
+  expense_data['person'] = person.id
+
+  serializer = ExpensePrioritySerializer(data=expense_data)
   if serializer.is_valid():
     expense = serializer.save()
     expenseData = ExpensePrioritySerializer(expense).data
@@ -28,6 +40,11 @@ def add_expense(request):
       "message": "successfully added a expense",
       "data": expenseData
     }, status=status.HTTP_200_OK)
+  
+  return Response({
+        "status": "err",
+        "message": "Invalid data for the expense",
+    }, status=status.HTTP_400_BAD_REQUEST)
   
 @api_view(['PUT'])
 @permission_classes([AllowAny])
@@ -48,7 +65,7 @@ def update_expense(request, pk):
       "status": "err",
       "message": "Err! expense data is not updated"
     }, status=status.HTTP_400_BAD_REQUEST)
-  
+
 @api_view(['DELETE'])
 @permission_classes([AllowAny])
 def delete_expenses(request):
@@ -78,6 +95,6 @@ def delete_expenses(request):
 
   except Exception as e:
     return Response({
-      "status": "err",\
+      "status": "err",
       "message": f"An error has occured: {str(e)}"
     }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

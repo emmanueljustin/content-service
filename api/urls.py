@@ -23,7 +23,7 @@ urlpatterns = [
 
   # Expense Priority
   path('expense/', get_expense, name='get_expense'),
-  path('expense/add/', add_expense, name='add_expense'),
+  path('expense/add/<int:person_id>', add_expense, name='add_expense'),
   path('expense/update/<int:pk>/', update_expense, name='update_expense'),
   path('expense/delete/', delete_expenses, name='delete_expenses')
 ]
