@@ -81,6 +81,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
 }
 
 WSGI_APPLICATION = 'contentService.wsgi.application'
@@ -120,7 +122,8 @@ DATABASES = {
         'NAME': 'contentservice',
         'USER': 'postgres',
         'PASSWORD': 'root',
-        'HOST': 'localhost',
+        # 'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '5432',
     }
 }

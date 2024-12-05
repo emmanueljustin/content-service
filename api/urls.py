@@ -1,5 +1,8 @@
 from django.urls import path
-from .views import *
+from .views.person import *
+from .views.wishlist import *
+from .views.authentication import *
+from .views.expense import *
 
 urlpatterns = [
   path('persons/', get_person, name='get_person'),
@@ -17,4 +20,10 @@ urlpatterns = [
   path('auth/register/', create_account, name='create_account'),
   path('auth/login/', login, name='login'),
   path('auth/logout/', logout, name='logout'),
+
+  # Expense Priority
+  path('expense/', get_expense, name='get_expense'),
+  path('expense/add/<int:person_id>', add_expense, name='add_expense'),
+  path('expense/update/<int:pk>/', update_expense, name='update_expense'),
+  path('expense/delete/', delete_expenses, name='delete_expenses')
 ]
