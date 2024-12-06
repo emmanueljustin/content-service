@@ -3,6 +3,8 @@ from .views.person import *
 from .views.wishlist import *
 from .views.authentication import *
 from .views.expense import *
+from .views.movies import *
+from .views.reviews import *
 
 urlpatterns = [
   path('persons/', get_person, name='get_person'),
@@ -25,5 +27,17 @@ urlpatterns = [
   path('expense/', get_expense, name='get_expense'),
   path('expense/add/<int:person_id>', add_expense, name='add_expense'),
   path('expense/update/<int:pk>/', update_expense, name='update_expense'),
-  path('expense/delete/', delete_expenses, name='delete_expenses')
+  path('expense/delete/', delete_expenses, name='delete_expenses'),
+
+  # Movie
+  path('movie/search/', search_movies, name='search_movies'),
+  path('movie/', get_movies, name='get_movies'),
+  path('movie/add/', add_movie, name='add_movie'),
+  path('movie/update/<int:movie_id>', update_movie, name='update_movie'),
+  path('movie/delete/', delete_movie, name='delete_movie'),
+
+  # Reviews
+  path('review/post/<int:movie_id>', post_review, name='post_review'),
+  path('review/update/<int:review_id>', update_review, name='update_review'),
+  path('review/delete/<int:review_id>', remove_review, name='remove_review'),
 ]
