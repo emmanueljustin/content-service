@@ -42,9 +42,9 @@ def add_expense(request, person_id):
     }, status=status.HTTP_200_OK)
   
   return Response({
-        "status": "err",
-        "message": "Invalid data for the expense",
-    }, status=status.HTTP_400_BAD_REQUEST)
+    "status": "err",
+    "message": "Invalid data for the expense",
+  }, status=status.HTTP_400_BAD_REQUEST)
   
 @api_view(['PUT'])
 @permission_classes([AllowAny])
