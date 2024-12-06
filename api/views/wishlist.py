@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response 
 from rest_framework import status
 from ..serializers.wishlist_serializer import *
-from ..pagination import CustomWishlistPagination
+from .pagination import CustomWishlistPagination
 from ..models.wishlist_model import Wishlist
 
 @api_view(['POST'])
@@ -13,15 +13,11 @@ def get_wishlist(request):
   page = request.data.get('page', 1)
 
   wishlists = Wishlist.objects.all()
-  
   total_count = wishlists.count()
-
   total_pages = (total_count + page_size - 1)
 
   paginator = CustomWishlistPagination(page_size=page_size, page=page)
-  
   paginated_wishlists = paginator.paginate_queryset(wishlists)
-
   serializer = WishlistSerializer(paginated_wishlists, many=True)
 
   return paginator.get_paginated_response(serializer.data, total_count, total_pages)
