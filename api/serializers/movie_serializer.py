@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..serializers.review_serializer import ReviewsSerializer
+from ..serializers.review_serializer import ReviewsSerializer, ReviewsCleanSerializer
 from ..models import *
 
 class MovieSerializer(serializers.ModelSerializer):
@@ -18,6 +18,19 @@ class MovieSerializer(serializers.ModelSerializer):
     
     return movie
   
+# Used only for fetching clean reviews when getting a list of movies
+class MovieCleanSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Movie
+    fields = ['id', 'title', 'synopsis', 'genre', 'rating']
+
+# Used for getting a single specific movie detail
+class SpecificMovieSerializer(serializers.ModelSerializer):
+  reviews = ReviewsCleanSerializer(many=True, required=False)
+  class Meta:
+    model = Movie
+    fields = ['id', 'title', 'synopsis', 'genre', 'rating', 'reviews']
+
 # Used for limiting the data shown in response when searching for movies
 class MovieSearchSerializer(serializers.ModelSerializer):
   class Meta:

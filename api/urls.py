@@ -32,6 +32,7 @@ urlpatterns = [
 
   # Movie
   path('movie/search/', search_movies, name='search_movies'),
+  path('movie/detail/<int:movie_id>', view_movie_detail, name='view_movie_detail'),
   path('movie/', get_movies, name='get_movies'),
   path('movie/add/', add_movie, name='add_movie'),
   path('movie/update/<int:movie_id>', update_movie, name='update_movie'),

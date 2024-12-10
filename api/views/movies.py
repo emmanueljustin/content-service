@@ -34,6 +34,18 @@ def search_movies(request):
 
   return paginator.get_paginated_response(serializer.data, total_count, total_pages)
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def view_movie_detail(request, movie_id):
+  movie = Movie.objects.get(pk=movie_id)
+  serializer = SpecificMovieSerializer(movie)
+
+  return Response({
+    "status": "ok",
+    "message": f"Here is the details for the movie {serializer.data['title']}",
+    "data": serializer.data
+  }, status=status.HTTP_200_OK)
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def get_movies(request):
@@ -51,7 +63,7 @@ def get_movies(request):
 
   paginator = CustomMoviePagination(page_size=page_size, page=page)
   paginated_movies = paginator.paginate_queryset(movies)
-  serializer = MovieSerializer(paginated_movies, many=True)
+  serializer = MovieCleanSerializer(paginated_movies, many=True)
 
   return paginator.get_paginated_response(serializer.data, total_count, total_pages)
 
