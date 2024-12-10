@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,6 +100,12 @@ OAUTH2_PROVIDER = {
     }
 }
 
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=3),  # JWT access token expires in 1 hour
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),  # JWT refresh token expires in 7 days
+    'ROTATE_REFRESH_TOKENS': False,  # Prevent refresh tokens from being rotated
+    'BLACKLIST_AFTER_ROTATION': True,  # Blacklist the old refresh token after using it
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -153,7 +160,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Manila'
 
 USE_I18N = True
 
