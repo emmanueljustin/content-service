@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.exceptions import NotAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 from ..serializers.auth_serializer import *
@@ -61,6 +62,38 @@ def login(request):
     "message": "Invalid credentials"
   }, status=status.HTTP_401_UNAUTHORIZED)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_details(request):
+  try:
+
+    user = request.user
+
+    if not user:
+      return Response({
+        "status": "err",
+        "message": "User not found"
+      }, status=status.HTTP_404_NOT_FOUND)
+    
+    user_data = UserSerializer(user).data
+
+    return Response({
+      "status": "ok",
+      "message": "Here is the user details",
+      "data": user_data
+    }, status=status.HTTP_200_OK)
+  
+  except NotAuthenticated:
+    return Response({
+      "status": "err",
+      "message": "Authentication required"
+    }, status=status.HTTP_401_UNAUTHORIZED)
+  
+  except Exception as e:
+    return Response({
+      "status": "err",
+      "message": f"An error has occurred: {str(e)}"
+    }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # This logout endpoint function accepts [RefreshToken] not [AccessToken] and expires it to prevent from generatinmg new [AccessToken]
 @api_view(['POST'])
