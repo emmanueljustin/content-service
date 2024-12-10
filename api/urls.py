@@ -21,6 +21,7 @@ urlpatterns = [
   # Authentication
   path('auth/register/', create_account, name='create_account'),
   path('auth/login/', login, name='login'),
+  path('auth/user/', get_user_details, name='get_user_details'),
   path('auth/logout/', logout, name='logout'),
 
   # Expense Priority
