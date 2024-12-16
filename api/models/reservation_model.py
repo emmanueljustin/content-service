@@ -12,7 +12,11 @@ class Reservation(models.Model):
   reservedAt = models.DateTimeField(auto_now_add=True)
   price = models.DecimalField(max_digits=6, decimal_places=2)
   dateReserved = models.DateTimeField()
-  person = models.OneToOneField(Person, related_name='reservedTo', blank=True, on_delete=models.CASCADE)
-  movie = models.OneToOneField(Movie, related_name='reservedMovie', blank=True, on_delete=models.CASCADE)
-  # Will add status status to check if the reservation is canceled or not
-  # status = models
+  person = models.ForeignKey(Person, related_name='reservedTo', blank=True, on_delete=models.CASCADE)
+  movie = models.ForeignKey(Movie, related_name='reservedMovie', blank=True, on_delete=models.CASCADE)
+  status = models.CharField(max_length=100)
+
+  class Meta:
+    constraints = [
+      models.UniqueConstraint(fields=['person', 'movie'], name='unique_reservation')
+    ]

@@ -13,8 +13,13 @@ class ReservationSerializer(serializers.ModelSerializer):
 
 class ReservationViewSerializer(serializers.ModelSerializer):
   movieName = serializers.CharField(source='movie.title')
-  personName = serializers.CharField(source='person.name')
+  name = serializers.CharField(source='person.name')
 
   class Meta:
     model = Reservation
-    fields = ['id', 'reservedAt', 'price', 'dateReserved', 'movieName', 'personName']
+    fields = ['id', 'reservedAt', 'price', 'dateReserved', 'movieName', 'name', 'status']
+
+class ReservationStatusSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Reservation
+    fields = ['status']
