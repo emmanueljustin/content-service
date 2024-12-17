@@ -5,6 +5,7 @@ from .views.authentication import *
 from .views.expense import *
 from .views.movies import *
 from .views.reviews import *
+from .views.reservation import *
 
 urlpatterns = [
   path('persons/', get_person, name='get_person'),
@@ -37,6 +38,11 @@ urlpatterns = [
   path('movie/add/', add_movie, name='add_movie'),
   path('movie/update/<int:movie_id>', update_movie, name='update_movie'),
   path('movie/delete/', delete_movie, name='delete_movie'),
+
+  # Reservation
+  path('reservation/', get_reservation_list, name='get_reservation_list'),
+  path('reservation/create/', create_reservation, name='create_reservation'),
+  path('reservation/update/<int:reservation_id>', update_reservation_status, name='update_reservation_status'),
 
   # Reviews
   path('review/post/<int:movie_id>', post_review, name='post_review'),
